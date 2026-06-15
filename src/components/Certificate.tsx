@@ -46,6 +46,15 @@ export const Certificate = forwardRef<HTMLDivElement, CertificateProps>(
     const verifyUrl = `https://verify.skilljar.com/c/${verifyId}`;
     const fixedHeight = height ?? null;
 
+    // Usable content width inside the frame (container padding 15×2 + frame
+    // padding 70×2). The skills block widens with the canvas so wide formats
+    // (16:9) don't leave empty bands at the sides, but never exceeds the frame.
+    const frameContentWidth = width - 30 - 140;
+    const skillsMaxWidth = Math.min(
+      Math.round(750 * (width / 1000)),
+      frameContentWidth,
+    );
+
     const styles: Record<string, CSSProperties> = {
       container: {
         width,
@@ -60,10 +69,15 @@ export const Certificate = forwardRef<HTMLDivElement, CertificateProps>(
         flexDirection: "column",
       },
       border: {
-        // The frame fills the canvas (flex: 1). With a fixed height, content is
-        // centered so every aspect ratio looks intentional; with content-driven
-        // height it sits naturally from the top (the original look). Extra
-        // bottom padding gives the footer breathing room above the edge.
+        // The frame fills the canvas (flex: 1). With a fixed height, the three
+        // bands (header / body / footer) are distributed with `space-between`
+        // so the header anchors the top, the signature/footer anchors the
+        // bottom, and the body sits centered between them — every aspect ratio
+        // reads as intentional instead of a small block floating in dead space.
+        // `gap` sets the minimum spacing, so tight ratios (16:9) stay compact
+        // while tall ones (9:16) spread evenly. Content-driven height keeps the
+        // original top-aligned stack. Extra bottom padding gives the footer
+        // breathing room above the edge.
         border: `3px solid ${accent}`,
         padding: "50px 70px 60px",
         position: "relative",
@@ -71,7 +85,8 @@ export const Certificate = forwardRef<HTMLDivElement, CertificateProps>(
         flex: 1,
         display: "flex",
         flexDirection: "column",
-        justifyContent: fixedHeight ? "center" : "flex-start",
+        gap: 40,
+        justifyContent: fixedHeight ? "space-between" : "flex-start",
       },
       innerBorder: {
         border: `1px solid ${accent}`,
@@ -86,7 +101,13 @@ export const Certificate = forwardRef<HTMLDivElement, CertificateProps>(
         display: "flex",
         justifyContent: "space-between",
         alignItems: "flex-start",
-        marginBottom: 40,
+      },
+      // Groups the name/course block and the skills block so the frame can
+      // distribute header / body / footer as three even bands.
+      middle: {
+        display: "flex",
+        flexDirection: "column",
+        gap: 40,
       },
       logo: {
         fontFamily: PLAYFAIR,
@@ -110,7 +131,7 @@ export const Certificate = forwardRef<HTMLDivElement, CertificateProps>(
         borderRight: `3px solid ${accent}`,
         lineHeight: 1.4,
       },
-      main: { textAlign: "center", marginBottom: 40 },
+      main: { textAlign: "center" },
       issuedTo: {
         fontFamily: INTER,
         fontSize: 14,
@@ -147,8 +168,9 @@ export const Certificate = forwardRef<HTMLDivElement, CertificateProps>(
         padding: "25px 40px",
         borderRadius: 4,
         borderLeft: `5px solid ${accent}`,
-        margin: "0 auto 40px auto",
-        maxWidth: 750,
+        margin: "0 auto",
+        maxWidth: skillsMaxWidth,
+        width: "100%",
         textAlign: "left",
       },
       skillsHeading: {
@@ -224,26 +246,28 @@ export const Certificate = forwardRef<HTMLDivElement, CertificateProps>(
             </div>
           </div>
 
-          <div style={styles.main}>
-            <div style={styles.issuedTo}>
-              This certificate is proudly issued to
+          <div style={styles.middle}>
+            <div style={styles.main}>
+              <div style={styles.issuedTo}>
+                This certificate is proudly issued to
+              </div>
+              <h1 style={styles.name}>{name}</h1>
+              <div style={styles.hasCompleted}>
+                has successfully achieved student level credential for completing
+              </div>
+              <h2 style={styles.courseName}>{courseTitle}</h2>
             </div>
-            <h1 style={styles.name}>{name}</h1>
-            <div style={styles.hasCompleted}>
-              has successfully achieved student level credential for completing
-            </div>
-            <h2 style={styles.courseName}>{courseTitle}</h2>
-          </div>
 
-          <div style={styles.skills}>
-            <p style={styles.skillsHeading}>{skills.heading}</p>
-            <ul style={styles.skillsList}>
-              {skills.items.map((item, i) => (
-                <li key={i} style={{ marginBottom: 6 }}>
-                  {item}
-                </li>
-              ))}
-            </ul>
+            <div style={styles.skills}>
+              <p style={styles.skillsHeading}>{skills.heading}</p>
+              <ul style={styles.skillsList}>
+                {skills.items.map((item, i) => (
+                  <li key={i} style={{ marginBottom: 6 }}>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
           <div style={styles.footer}>
