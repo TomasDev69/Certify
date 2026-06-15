@@ -3,7 +3,25 @@
 import { useEffect, useRef, useState } from "react";
 import { Certificate, type CertificateProps } from "./Certificate";
 
-const CERT_WIDTH = 1000;
+type CertFormat = "standard" | "wide" | "tall" | "square";
+
+interface FormatSpec {
+  id: CertFormat;
+  label: string;
+  width: number;
+  /** Fixed canvas height, or null for content-driven (the original look). */
+  height: number | null;
+}
+
+// Each format is a full-bleed canvas the certificate fills; content is centered
+// within the gold frame so every ratio looks intentional. Widths stay near
+// 1000px so the fixed type sizes remain well-proportioned.
+const FORMATS: FormatSpec[] = [
+  { id: "standard", label: "Standard", width: 1000, height: null },
+  { id: "wide", label: "16:9", width: 1280, height: 720 },
+  { id: "tall", label: "9:16", width: 810, height: 1440 },
+  { id: "square", label: "1:1", width: 1000, height: 1000 },
+];
 
 /** Filesystem-safe slug for the downloaded file name. */
 function slugify(value: string): string {
@@ -35,8 +53,11 @@ export function CertificateCard({
   const [scale, setScale] = useState(1);
   const [certHeight, setCertHeight] = useState(0);
   const [qrDataUrl, setQrDataUrl] = useState<string>();
+  const [format, setFormat] = useState<CertFormat>("standard");
   const [downloading, setDownloading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const fmt = FORMATS.find((f) => f.id === format) ?? FORMATS[0];
 
   // Generate the verification QR locally as a data URL. Doing this client-side
   // (rather than an external image) keeps html2canvas from tainting the canvas.
@@ -67,7 +88,7 @@ export function CertificateCard({
     if (!previewEl || !certEl) return;
 
     const update = () => {
-      setScale(previewEl.clientWidth / CERT_WIDTH);
+      setScale(previewEl.clientWidth / fmt.width);
       setCertHeight(certEl.offsetHeight);
     };
     update();
@@ -85,7 +106,7 @@ export function CertificateCard({
       cancelled = true;
       observer.disconnect();
     };
-  }, [qrDataUrl]);
+  }, [qrDataUrl, fmt.width]);
 
   async function handleDownload() {
     const node = certRef.current;
@@ -126,7 +147,7 @@ export function CertificateCard({
         format: [width, height],
       });
       pdf.addImage(imgData, "PNG", 0, 0, width, height);
-      pdf.save(`anthropic-${slugify(courseTitle)}-certificate.pdf`);
+      pdf.save(`anthropic-${slugify(courseTitle)}-${fmt.id}-certificate.pdf`);
     } catch (err) {
       console.error("Certificate PDF export failed:", err);
       setError("Something went wrong generating the PDF. Please try again.");
@@ -137,6 +158,25 @@ export function CertificateCard({
 
   return (
     <div className="flex w-full flex-col items-center gap-8">
+      {/* Aspect-ratio selector */}
+      <div className="flex flex-wrap items-center justify-center gap-2">
+        {FORMATS.map((f) => (
+          <button
+            key={f.id}
+            type="button"
+            onClick={() => setFormat(f.id)}
+            aria-pressed={format === f.id}
+            className={`border px-4 py-2 text-sm transition-colors ${
+              format === f.id
+                ? "border-foreground bg-foreground text-background"
+                : "border-border text-muted hover:border-foreground hover:text-foreground"
+            }`}
+          >
+            {f.label}
+          </button>
+        ))}
+      </div>
+
       {/* Responsive scaled preview. The inner certificate keeps its intrinsic
           width (so the snapshot captures it at full resolution); the wrapper is
           scaled to fit the column width. */}
@@ -147,7 +187,7 @@ export function CertificateCard({
       >
         <div
           style={{
-            width: CERT_WIDTH,
+            width: fmt.width,
             transform: `scale(${scale})`,
             transformOrigin: "top left",
           }}
@@ -159,6 +199,8 @@ export function CertificateCard({
             verifyId={verifyId}
             qrDataUrl={qrDataUrl}
             issuedOn={issuedOn}
+            width={fmt.width}
+            height={fmt.height}
           />
         </div>
       </div>
@@ -170,7 +212,9 @@ export function CertificateCard({
           disabled={downloading}
           className="inline-flex items-center justify-center bg-foreground px-6 py-3 text-sm font-medium text-background transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {downloading ? "Generating PDF…" : "Download as PDF"}
+          {downloading
+            ? "Generating PDF…"
+            : `Download ${fmt.label} as PDF`}
         </button>
         {error && <p className="text-sm text-red-400">{error}</p>}
       </div>

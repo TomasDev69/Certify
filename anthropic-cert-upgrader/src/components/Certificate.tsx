@@ -11,6 +11,11 @@ export interface CertificateProps {
   qrDataUrl?: string;
   /** Issue date string; defaults to today formatted dd/mm/yyyy. */
   issuedOn?: string;
+  /** Canvas width in px. Defaults to 1000. */
+  width?: number;
+  /** Fixed canvas height in px; when set, content is centered to fill it.
+   *  Omit/null for the original content-driven height. */
+  height?: number | null;
 }
 
 const PLAYFAIR = "var(--font-playfair), 'Playfair Display', Georgia, serif";
@@ -32,33 +37,41 @@ function formatDate(d: Date): string {
  */
 export const Certificate = forwardRef<HTMLDivElement, CertificateProps>(
   function Certificate(
-    { name, courseTitle, verifyId, qrDataUrl, issuedOn },
+    { name, courseTitle, verifyId, qrDataUrl, issuedOn, width = 1000, height },
     ref,
   ) {
     const accent = getAccentColor(courseTitle).color;
     const skills = getCourseSkills(courseTitle);
     const issueDate = issuedOn ?? formatDate(new Date());
     const verifyUrl = `https://verify.skilljar.com/c/${verifyId}`;
+    const fixedHeight = height ?? null;
 
     const styles: Record<string, CSSProperties> = {
       container: {
-        width: 1000,
+        width,
+        ...(fixedHeight ? { height: fixedHeight } : {}),
         backgroundColor: "#Fdfbf7",
         padding: 15,
         boxShadow: "0 10px 30px rgba(0,0,0,0.15)",
         position: "relative",
         boxSizing: "border-box",
         color: "#1A1A1A",
+        display: "flex",
+        flexDirection: "column",
       },
       border: {
-        // Content-driven height: the frame grows to fit its content, so the
-        // footer is always enclosed. The template's fixed `height: calc(...)`
-        // was what spilled the footer below the border; we drop it entirely.
-        // Extra bottom padding gives the footer breathing room above the edge.
+        // The frame fills the canvas (flex: 1). With a fixed height, content is
+        // centered so every aspect ratio looks intentional; with content-driven
+        // height it sits naturally from the top (the original look). Extra
+        // bottom padding gives the footer breathing room above the edge.
         border: `3px solid ${accent}`,
         padding: "50px 70px 60px",
         position: "relative",
         boxSizing: "border-box",
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: fixedHeight ? "center" : "flex-start",
       },
       innerBorder: {
         border: `1px solid ${accent}`,
