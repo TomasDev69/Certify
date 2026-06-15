@@ -34,6 +34,14 @@ function formatDate(d: Date): string {
  * Tailwind v4 emits `oklch()` colors, which html2canvas 1.4.1 cannot parse, so
  * inline hex keeps PDF capture reliable. The accent color and skills block are
  * derived from `courseTitle`; the ref points at the capture root.
+ *
+ * Two layout modes:
+ *  - **Portrait/standard** (content-driven height): the original look — type at
+ *    its natural sizes, sections stacked from the top.
+ *  - **Landscape** (a fixed height much wider than it is tall, e.g. 16:9): type
+ *    and spacing scale up so the design fills the larger canvas instead of
+ *    floating small in the middle, and the skills render in two columns to use
+ *    the width and keep the block short enough to fit the reduced height.
  */
 export const Certificate = forwardRef<HTMLDivElement, CertificateProps>(
   function Certificate(
@@ -46,10 +54,23 @@ export const Certificate = forwardRef<HTMLDivElement, CertificateProps>(
     const verifyUrl = `https://verify.skilljar.com/c/${verifyId}`;
     const fixedHeight = height ?? null;
 
-    // Usable content width inside the frame (container padding 15×2 + frame
-    // padding 70×2). The skills block widens with the canvas so wide formats
-    // (16:9) don't leave empty bands at the sides, but never exceeds the frame.
-    const frameContentWidth = width - 30 - 140;
+    // Landscape mode kicks in when the canvas is markedly wider than it is tall
+    // (16:9 ≈ 1.78). There, the standard type sizes look lost, so everything
+    // scales up by `s` and the skills go two-up. Portrait keeps `s = 1` so the
+    // standard certificate is byte-for-byte unchanged.
+    const isWide = fixedHeight != null && width / fixedHeight >= 1.4;
+    const s = isWide ? 1.1 : 1;
+    const px = (n: number) => Math.round(n * s);
+
+    // Spacing between the header / body / footer bands. Landscape packs tighter
+    // (relative to its larger type) so the scaled-up content still fits the
+    // shorter canvas and reads as one cohesive block.
+    const bandGap = isWide ? px(16) : 40;
+
+    // Usable content width inside the frame (container + frame padding). The
+    // skills block widens with the canvas so wide formats don't leave empty
+    // side bands, but never exceeds the frame.
+    const frameContentWidth = width - px(30) - px(140);
     const skillsMaxWidth = Math.min(
       Math.round(750 * (width / 1000)),
       frameContentWidth,
@@ -60,7 +81,7 @@ export const Certificate = forwardRef<HTMLDivElement, CertificateProps>(
         width,
         ...(fixedHeight ? { height: fixedHeight } : {}),
         backgroundColor: "#Fdfbf7",
-        padding: 15,
+        padding: px(15),
         boxShadow: "0 10px 30px rgba(0,0,0,0.15)",
         position: "relative",
         boxSizing: "border-box",
@@ -69,24 +90,22 @@ export const Certificate = forwardRef<HTMLDivElement, CertificateProps>(
         flexDirection: "column",
       },
       border: {
-        // The frame fills the canvas (flex: 1). With a fixed height, the three
-        // bands (header / body / footer) are distributed with `space-between`
-        // so the header anchors the top, the signature/footer anchors the
-        // bottom, and the body sits centered between them — every aspect ratio
-        // reads as intentional instead of a small block floating in dead space.
-        // `gap` sets the minimum spacing, so tight ratios (16:9) stay compact
-        // while tall ones (9:16) spread evenly. Content-driven height keeps the
-        // original top-aligned stack. Extra bottom padding gives the footer
-        // breathing room above the edge.
+        // The frame fills the canvas (flex: 1). With a fixed height the three
+        // bands are vertically centered as one block; the scaled-up content is
+        // sized to nearly fill the frame, so the margins above and below stay
+        // small and even — intentional, like the standard. Content-driven
+        // height keeps the original top-aligned stack.
         border: `3px solid ${accent}`,
-        padding: "50px 70px 60px",
+        padding: isWide
+          ? `${px(38)}px ${px(70)}px ${px(42)}px`
+          : "50px 70px 60px",
         position: "relative",
         boxSizing: "border-box",
         flex: 1,
         display: "flex",
         flexDirection: "column",
-        gap: 40,
-        justifyContent: fixedHeight ? "space-between" : "flex-start",
+        gap: bandGap,
+        justifyContent: fixedHeight ? "center" : "flex-start",
       },
       innerBorder: {
         border: `1px solid ${accent}`,
@@ -107,116 +126,129 @@ export const Certificate = forwardRef<HTMLDivElement, CertificateProps>(
       middle: {
         display: "flex",
         flexDirection: "column",
-        gap: 40,
+        gap: bandGap,
       },
       logo: {
         fontFamily: PLAYFAIR,
-        fontSize: 32,
+        fontSize: px(32),
         fontWeight: 600,
         color: "#1A1A1A",
         letterSpacing: "-0.5px",
         display: "flex",
         alignItems: "center",
-        gap: 10,
+        gap: px(10),
       },
       certTitle: {
         fontFamily: INTER,
         textTransform: "uppercase",
         letterSpacing: "3px",
         color: "#666",
-        fontSize: 14,
+        fontSize: px(14),
         textAlign: "right",
-        marginTop: 10,
-        paddingRight: 18,
+        marginTop: px(10),
+        paddingRight: px(18),
         borderRight: `3px solid ${accent}`,
         lineHeight: 1.4,
       },
       main: { textAlign: "center" },
       issuedTo: {
         fontFamily: INTER,
-        fontSize: 14,
+        fontSize: px(14),
         color: "#666",
         textTransform: "uppercase",
         letterSpacing: "2px",
-        marginBottom: 15,
+        marginBottom: px(15),
       },
       name: {
         fontFamily: PLAYFAIR,
-        fontSize: 48,
+        fontSize: px(48),
         color: "#1A1A1A",
-        margin: "0 0 15px 0",
+        margin: `0 0 ${px(15)}px 0`,
         fontStyle: "italic",
       },
       hasCompleted: {
         fontFamily: INTER,
-        fontSize: 16,
+        fontSize: px(16),
         color: "#444",
-        marginBottom: 20,
+        marginBottom: px(20),
       },
       courseName: {
         fontFamily: INTER,
-        fontSize: 32,
+        fontSize: px(32),
         fontWeight: 600,
         color: accent,
         margin: 0,
       },
       skills: {
         fontFamily: INTER,
-        fontSize: 13,
+        fontSize: px(13),
         color: "#333",
         backgroundColor: "#f7f4ec",
-        padding: "25px 40px",
+        padding: `${px(25)}px ${px(40)}px`,
         borderRadius: 4,
-        borderLeft: `5px solid ${accent}`,
+        borderLeft: `${px(5)}px solid ${accent}`,
         margin: "0 auto",
         maxWidth: skillsMaxWidth,
         width: "100%",
+        boxSizing: "border-box",
         textAlign: "left",
       },
       skillsHeading: {
         marginTop: 0,
-        marginBottom: 12,
+        marginBottom: px(12),
         fontWeight: 600,
         color: "#1a1a1a",
-        fontSize: 14,
+        fontSize: px(14),
       },
-      skillsList: { margin: 0, paddingLeft: 20, lineHeight: 1.6 },
+      skillsList: isWide
+        ? {
+            margin: 0,
+            // Two columns in landscape: fills the width and halves the height.
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            columnGap: px(40),
+            rowGap: px(4),
+            listStylePosition: "inside",
+            paddingLeft: 0,
+            lineHeight: 1.6,
+          }
+        : { margin: 0, paddingLeft: 20, lineHeight: 1.6 },
       footer: {
         display: "flex",
         justifyContent: "space-between",
         alignItems: "flex-end",
         fontFamily: INTER,
-        fontSize: 12,
+        fontSize: px(12),
         color: "#555",
       },
-      footerLeft: { display: "flex", gap: 20, alignItems: "center" },
+      footerLeft: { display: "flex", gap: px(20), alignItems: "center" },
       qr: {
-        width: 80,
-        height: 80,
+        width: px(80),
+        height: px(80),
         backgroundColor: "#fff",
         border: "1px solid #ccc",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        fontSize: 10,
+        fontSize: px(10),
         color: "#999",
-        padding: 5,
+        padding: px(5),
         textAlign: "center",
         boxSizing: "border-box",
         flexShrink: 0,
       },
-      signatureBlock: { textAlign: "center", width: 250 },
+      signatureBlock: { textAlign: "center", width: px(250) },
       signature: {
         fontFamily: PLAYFAIR,
-        fontSize: 28,
+        fontSize: px(28),
         color: "#1a1a1a",
         borderBottom: "1px solid #999",
-        marginBottom: 8,
-        paddingBottom: 5,
+        marginBottom: px(8),
+        paddingBottom: px(5),
         fontStyle: "italic",
       },
       signatureTitle: {
-        fontSize: 11,
+        fontSize: px(11),
         textTransform: "uppercase",
         letterSpacing: "1px",
       },
@@ -233,7 +265,7 @@ export const Certificate = forwardRef<HTMLDivElement, CertificateProps>(
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                style={{ width: 35, height: 35 }}
+                style={{ width: px(35), height: px(35) }}
               >
                 <path d="M12 2L2 22H6L12 10L18 22H22L12 2Z" fill="#1A1A1A" />
               </svg>
@@ -262,7 +294,7 @@ export const Certificate = forwardRef<HTMLDivElement, CertificateProps>(
               <p style={styles.skillsHeading}>{skills.heading}</p>
               <ul style={styles.skillsList}>
                 {skills.items.map((item, i) => (
-                  <li key={i} style={{ marginBottom: 6 }}>
+                  <li key={i} style={{ marginBottom: px(6) }}>
                     {item}
                   </li>
                 ))}
@@ -285,13 +317,13 @@ export const Certificate = forwardRef<HTMLDivElement, CertificateProps>(
                 )}
               </div>
               <div>
-                <p style={{ margin: "4px 0" }}>
+                <p style={{ margin: `${px(4)}px 0` }}>
                   <strong>Issued on:</strong> {issueDate}
                 </p>
-                <p style={{ margin: "4px 0" }}>
+                <p style={{ margin: `${px(4)}px 0` }}>
                   <strong>Issued by:</strong> Anthropic (Skilljar Platform)
                 </p>
-                <p style={{ margin: "4px 0" }}>
+                <p style={{ margin: `${px(4)}px 0` }}>
                   <strong>Verify:</strong>{" "}
                   <a
                     href={verifyUrl}

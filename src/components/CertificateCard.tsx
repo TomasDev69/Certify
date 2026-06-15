@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Certificate, type CertificateProps } from "./Certificate";
 
-type CertFormat = "standard" | "wide" | "tall" | "square";
+type CertFormat = "standard" | "wide";
 
 interface FormatSpec {
   id: CertFormat;
@@ -13,14 +13,12 @@ interface FormatSpec {
   height: number | null;
 }
 
-// Each format is a full-bleed canvas the certificate fills; content is centered
-// within the gold frame so every ratio looks intentional. Widths stay near
-// 1000px so the fixed type sizes remain well-proportioned.
+// Each format is a full-bleed canvas the certificate fills. Standard is the
+// content-driven portrait look; 16:9 scales its type and spacing up to fill the
+// wider landscape canvas (see Certificate's landscape mode).
 const FORMATS: FormatSpec[] = [
   { id: "standard", label: "Standard", width: 1000, height: null },
   { id: "wide", label: "16:9", width: 1280, height: 720 },
-  { id: "tall", label: "9:16", width: 810, height: 1440 },
-  { id: "square", label: "1:1", width: 1000, height: 1000 },
 ];
 
 /** Filesystem-safe slug for the downloaded file name. */
