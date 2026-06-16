@@ -15,9 +15,32 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://certify-red.vercel.app"),
   title: "Certify — Redesign Your Anthropic Certificate",
   description:
     "Validate an official Anthropic Skilljar certificate and generate a beautifully redesigned, downloadable version.",
+  openGraph: {
+    title: "Certify — Redesign Your Anthropic Certificate",
+    description:
+      "Validate an official Anthropic Skilljar certificate and generate a beautifully redesigned, downloadable version.",
+    url: "https://certify-red.vercel.app",
+    siteName: "Certify",
+    images: [
+      {
+        url: "/logo.png",
+        width: 960,
+        height: 960,
+        alt: "Certify logo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary",
+    title: "Certify — Redesign Your Anthropic Certificate",
+    description:
+      "Validate an official Anthropic Skilljar certificate and generate a beautifully redesigned, downloadable version.",
+    images: ["/logo.png"],
+  },
 };
 
 export default function RootLayout({
