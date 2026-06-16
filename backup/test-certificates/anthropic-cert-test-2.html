@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Certificate test 2 — ∧ symbol + ANTHROP\C wordmark</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --accent: #c15f3c; /* Claude Code 101 — terracotta */
+        --playfair: "Playfair Display", Georgia, serif;
+        --inter: "Inter", Arial, sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: #222;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 28px;
+        padding: 40px;
+        font-family: var(--inter);
+      }
+      .caption {
+        color: #bbb;
+        font-size: 13px;
+        max-width: 1000px;
+      }
+      .caption b {
+        color: #fff;
+      }
+
+      /* --- Certificate (mirrors the app's Standard layout) --- */
+      .container {
+        width: 1000px;
+        background-color: #fdfbf7;
+        padding: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        position: relative;
+        color: #1a1a1a;
+        display: flex;
+        flex-direction: column;
+      }
+      .border {
+        border: 3px solid var(--accent);
+        padding: 50px 70px 60px;
+        position: relative;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+      }
+      .inner-border {
+        border: 1px solid var(--accent);
+        position: absolute;
+        inset: 5px;
+        pointer-events: none;
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+      /* Keep the ∧ symbol before the wordmark, as in the original design. */
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+      }
+      .logo svg {
+        width: 30px;
+        height: 30px;
+      }
+      .wordmark {
+        font-family: var(--inter);
+        font-weight: 700;
+        font-size: 28px;
+        letter-spacing: 1px;
+        color: #181818;
+        text-transform: uppercase;
+        line-height: 1;
+      }
+      .cert-title {
+        font-family: var(--inter);
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        color: #666;
+        font-size: 14px;
+        text-align: right;
+        margin-top: 10px;
+        padding-right: 18px;
+        border-right: 3px solid var(--accent);
+        line-height: 1.4;
+      }
+      .middle {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+      }
+      .main {
+        text-align: center;
+      }
+      .issued-to {
+        font-size: 14px;
+        color: #666;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 15px;
+      }
+      .name {
+        font-family: var(--playfair);
+        font-size: 48px;
+        margin: 0 0 15px 0;
+        font-style: italic;
+      }
+      .has-completed {
+        font-size: 16px;
+        color: #444;
+        margin-bottom: 20px;
+      }
+      .course-name {
+        font-size: 32px;
+        font-weight: 600;
+        color: var(--accent);
+        margin: 0;
+      }
+      .skills {
+        font-size: 13px;
+        color: #333;
+        background-color: #f7f4ec;
+        padding: 25px 40px;
+        border-radius: 4px;
+        border-left: 5px solid var(--accent);
+        margin: 0 auto;
+        max-width: 750px;
+        width: 100%;
+        text-align: left;
+      }
+      .skills h3 {
+        margin: 0 0 12px 0;
+        font-weight: 600;
+        color: #1a1a1a;
+        font-size: 14px;
+      }
+      .skills ul {
+        margin: 0;
+        padding-left: 20px;
+        line-height: 1.6;
+      }
+      .skills li {
+        margin-bottom: 6px;
+      }
+      .footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        font-size: 12px;
+        color: #555;
+      }
+      .footer-left {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+      }
+      .qr {
+        width: 80px;
+        height: 80px;
+        background: #fff;
+        border: 1px solid #ccc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 10px;
+        color: #999;
+      }
+      .footer-left p {
+        margin: 4px 0;
+      }
+      .footer-left a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      .signature-block {
+        text-align: center;
+        width: 250px;
+      }
+      .signature {
+        font-family: var(--playfair);
+        font-size: 28px;
+        font-style: italic;
+        color: #1a1a1a;
+        border-bottom: 1px solid #999;
+        margin-bottom: 8px;
+        padding-bottom: 5px;
+      }
+      .signature-title {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+    </style>
+  </head>
+  <body>
+    <p class="caption">
+      <b>Test certificate 2</b> — keeps the original <b>∧ symbol</b> before the
+      wordmark, with the text styled as the official <b>ANTHROP\C</b>. Footer
+      signature kept as <b>Anthropic Academy</b>. (Compare with
+      anthropic-cert-test.html, which drops the ∧ symbol.)
+    </p>
+
+    <div class="container">
+      <div class="border">
+        <div class="inner-border"></div>
+
+        <div class="header">
+          <div class="logo">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L2 22H6L12 10L18 22H22L12 2Z" fill="#1A1A1A" />
+            </svg>
+            <span class="wordmark">ANTHROP\C</span>
+          </div>
+          <div class="cert-title">Certificate of<br />Course Completion</div>
+        </div>
+
+        <div class="middle">
+          <div class="main">
+            <div class="issued-to">This certificate is proudly issued to</div>
+            <h1 class="name">Tomas Guardati</h1>
+            <div class="has-completed">
+              has successfully achieved student level credential for completing
+            </div>
+            <h2 class="course-name">Claude Code 101</h2>
+          </div>
+
+          <div class="skills">
+            <h3>The student has demonstrated proficiency in the following areas:</h3>
+            <ul>
+              <li>Driving agentic coding workflows from the Claude Code CLI.</li>
+              <li>Delegating multi-step engineering tasks to Claude.</li>
+              <li>Reviewing, refining, and committing AI-generated changes.</li>
+              <li>Configuring permissions and tools for safe automation.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer">
+          <div class="footer-left">
+            <div class="qr">QR</div>
+            <div>
+              <p><strong>Issued on:</strong> 13/06/2026</p>
+              <p><strong>Issued by:</strong> Anthropic (Skilljar Platform)</p>
+              <p>
+                <strong>Verify:</strong>
+                <a href="https://verify.skilljar.com/c/w2w2fahppiqn"
+                  >https://verify.skilljar.com/c/w2w2fahppiqn</a
+                >
+              </p>
+            </div>
+          </div>
+
+          <div class="signature-block">
+            <div class="signature">Anthropic Academy</div>
+            <div class="signature-title">Education &amp; Training Team</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -128,17 +128,15 @@ export const Certificate = forwardRef<HTMLDivElement, CertificateProps>(
         flexDirection: "column",
         gap: bandGap,
       },
-      // The official Anthropic wordmark, as on anthropic.com: text only, no ∧
-      // symbol — uppercase, bold, the "I" written as a backslash ("ANTHROP\C").
-      // Inter 700 approximates the brand's proprietary Styrene typeface.
       logo: {
-        fontFamily: INTER,
-        fontSize: px(28),
-        fontWeight: 700,
-        color: "#181818",
-        letterSpacing: "1px",
-        textTransform: "uppercase",
-        lineHeight: 1,
+        fontFamily: PLAYFAIR,
+        fontSize: px(32),
+        fontWeight: 600,
+        color: "#1A1A1A",
+        letterSpacing: "-0.5px",
+        display: "flex",
+        alignItems: "center",
+        gap: px(10),
       },
       certTitle: {
         fontFamily: INTER,
@@ -262,7 +260,17 @@ export const Certificate = forwardRef<HTMLDivElement, CertificateProps>(
           <div style={styles.innerBorder} />
 
           <div style={styles.header}>
-            <div style={styles.logo}>{"ANTHROP\\C"}</div>
+            <div style={styles.logo}>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                style={{ width: px(35), height: px(35) }}
+              >
+                <path d="M12 2L2 22H6L12 10L18 22H22L12 2Z" fill="#1A1A1A" />
+              </svg>
+              Anthropic
+            </div>
             <div style={styles.certTitle}>
               Certificate of
               <br />
