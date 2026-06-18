@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import Link from "next/link";
 import { CertificateCard } from "@/components/CertificateCard";
 
 interface VerifyResult {
@@ -14,7 +15,7 @@ type Status = "idle" | "loading" | "error" | "success";
 
 // --- Project credits (footer) ---
 const AUTHOR = "Tomas Guardati";
-const LAST_UPDATED = "June 15, 2026";
+const LAST_UPDATED = "June 18, 2026";
 // TODO: set this to your portfolio URL once it's live, e.g. "https://tomasguardati.com".
 // While empty, the footer shows "Portfolio — coming soon" instead of a link.
 const PORTFOLIO_URL: string = "";
@@ -145,8 +146,17 @@ export default function Home() {
       </main>
 
       <footer className="mt-20 flex flex-col items-end gap-1 border-t border-border pt-6 text-right text-xs text-muted">
-        <p>
-          Built by <span className="text-foreground">{AUTHOR}</span>
+        <p className="flex items-center justify-end gap-2">
+          <span>
+            Built by <span className="text-foreground">{AUTHOR}</span>
+          </span>
+          <span aria-hidden="true">·</span>
+          <Link
+            href="/legal"
+            className="text-muted underline-offset-4 transition-colors hover:text-foreground hover:underline"
+          >
+            Privacy &amp; Terms
+          </Link>
         </p>
         <p className="flex items-center gap-2">
           <span>Last updated {LAST_UPDATED}</span>
