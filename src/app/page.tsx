@@ -15,10 +15,8 @@ type Status = "idle" | "loading" | "error" | "success";
 
 // --- Project credits (footer) ---
 const AUTHOR = "Tomas Guardati";
-const LAST_UPDATED = "June 18, 2026";
-// TODO: set this to your portfolio URL once it's live, e.g. "https://tomasguardati.com".
-// While empty, the footer shows "Portfolio — coming soon" instead of a link.
-const PORTFOLIO_URL: string = "";
+const LAST_UPDATED = "June 19, 2026";
+const PORTFOLIO_URL = "https://tomasdev69.github.io/TMSPortfolio/";
 
 export default function Home() {
   const [url, setUrl] = useState("");
