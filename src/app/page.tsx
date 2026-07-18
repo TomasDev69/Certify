@@ -16,7 +16,7 @@ type Status = "idle" | "loading" | "error" | "success";
 // --- Project credits (footer) ---
 const AUTHOR = "Tomas Guardati";
 const LAST_UPDATED = "June 19, 2026";
-const PORTFOLIO_URL = "https://tomasdev69.github.io/TMSPortfolio/";
+const PORTFOLIO_URL = "https://portfolio.tmslab.it/";
 
 export default function Home() {
   const [url, setUrl] = useState("");
