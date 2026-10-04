@@ -40,3 +40,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# prompt di ripresa con accesso al Pi: solo locale
+PROMPT-RIPRESA.md
+*.prima-analytics
