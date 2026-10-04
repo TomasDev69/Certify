@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
-import { Analytics } from "@vercel/analytics/next";
+import Script from "next/script";
 import "./globals.css";
 
 const inter = Inter({
@@ -55,7 +55,11 @@ export default function RootLayout({
     >
       <body className="min-h-full">
         {children}
-        <Analytics />
+        <Script
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon='{"token": "2e2473c4002a4ef08ec00b8fe2003946"}'
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );

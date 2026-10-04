@@ -80,11 +80,23 @@ export default function LegalPage() {
                 <span className="font-medium text-foreground">
                   Navigation Data:
                 </span>{" "}
-                The hosting infrastructure (Vercel) automatically and
-                temporarily collects standard connection logs (e.g., IP
-                addresses, user agents). This data is necessary to ensure proper
-                traffic routing, security, and the technical functioning of the
-                service.
+                The hosting infrastructure and Cloudflare, which delivers the
+                site, automatically and temporarily collect standard connection
+                logs (e.g., IP addresses, user agents). This data is necessary
+                to ensure proper traffic routing, security, and the technical
+                functioning of the service.
+              </li>
+              <li className="text-base leading-relaxed text-foreground/80">
+                <span className="font-medium text-foreground">
+                  Visit Statistics:
+                </span>{" "}
+                We count visits with Cloudflare Web Analytics, which loads a
+                small script from Cloudflare. According to Cloudflare, it does
+                not use cookies or other browser storage and does not identify
+                visitors through their IP address or device fingerprinting. We
+                only see aggregated figures (number of visits, pages viewed,
+                country). Legal basis: legitimate interest in understanding how
+                the service is used (Art. 6(1)(f) GDPR).
               </li>
               <li className="text-base leading-relaxed text-foreground/80">
                 <span className="font-medium text-foreground">Sharing:</span>{" "}
@@ -101,11 +113,13 @@ export default function LegalPage() {
             </h2>
             <p className="mt-4 text-base leading-relaxed text-foreground/80">
               This website is designed to respect your privacy. We do not use
-              profiling cookies, trackers, or third-party analytics tools (e.g.,
-              Google Analytics). Only technical cookies or similar technologies
-              provided by the hosting infrastructure are used, strictly
-              necessary for security and the delivery of the service. For this
-              reason, a prior consent banner is not required.
+              profiling cookies or advertising trackers. Visit statistics come
+              from Cloudflare Web Analytics, which works without cookies and
+              only provides aggregated data (see section 2). Only technical
+              cookies or similar technologies provided by the hosting
+              infrastructure are used, strictly necessary for security and the
+              delivery of the service. For this reason, a prior consent banner
+              is not required.
             </p>
           </section>
         </div>
