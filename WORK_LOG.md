@@ -32,10 +32,10 @@ ufficiale. poi secondo me si può aggiungere un link alla pagina changelog».
 2. [x] `src/app/page.tsx`: link «Changelog» nel footer, accanto a
    «Privacy & Terms».
 3. [x] `CLAUDE.md`: note aperte aggiornate (resta solo la copia su Vercel).
-4. [ ] `npm run build` sul PC, `FEATURE_CHECKLIST.md` per intero.
-5. [ ] Commit e push, poi sul Pi pull, build, `pm2 restart certify`, verifiche.
+4. [x] `npm run build` sul PC, `FEATURE_CHECKLIST.md` per intero.
+5. [x] Commit e push, poi sul Pi pull, build, `pm2 restart certify`, verifiche.
 
-**Stato:** voce di changelog 0.1.1 (PATCH) aggiunta su richiesta di Tomas (notifica ntfy saltata: il topic sta solo sul Pi). Build OK sul PC, commit e push, poi deploy sul Pi.
+**Stato:** voce di changelog 0.1.1 (PATCH) aggiunta su richiesta di Tomas (notifica ntfy saltata: il topic sta solo sul Pi). Commit `9618875`, sul Pi pull, build e restart: livelli 2, 3, 5 e 6 della checklist OK, da fuori og:url e og:image su certify.tmslab.it, link Changelog presente, 0 riferimenti al Pi nel JS. Livello 4 (certificato reale) non rifatto: il certificato e il PDF non sono stati toccati.
 
 ---
 
