@@ -247,10 +247,11 @@ curl -I https://certify.tmslab.it   # deve restare 200
   il link "← Certify" riporta indietro.
 
 ### 4.2 Footer della home
-- **Cosa fa:** "Built by Tomas Guardati", link a `/legal`, data
-  "Last updated" (costante `LAST_UPDATED` in `src/app/page.tsx`) e link al
-  portfolio (`https://portfolio.tmslab.it/`, apre in nuova scheda).
-- **Come testare:** entrambi i link funzionano; se hai cambiato qualcosa di
+- **Cosa fa:** "Built by Tomas Guardati", link a `/legal` e a `/changelog`
+  (dal 05/10/2026), data "Last updated" (costante `LAST_UPDATED` in
+  `src/app/page.tsx`) e link al portfolio (`https://portfolio.tmslab.it/`,
+  apre in nuova scheda).
+- **Come testare:** tutti e tre i link funzionano; se hai cambiato qualcosa di
   sostanziale, valuta se aggiornare `LAST_UPDATED` (è a mano, non
   automatico).
 
@@ -259,12 +260,8 @@ curl -I https://certify.tmslab.it   # deve restare 200
   favicon (`src/app/icon.png`) e icona iOS (`src/app/apple-icon.png`).
 - **Come testare:** la favicon si vede nella scheda del browser; `curl -s
   https://certify.tmslab.it | grep -o '<meta property="og:[^>]*>'` mostra i
-  tag.
-- **Nota aperta (non correggere senza chiedere):** `metadataBase` in
-  `src/app/layout.tsx` punta ancora a `https://certify-red.vercel.app`,
-  residuo del deploy Vercel originale. Non impatta il funzionamento del
-  sito, ma le URL assolute nelle anteprime social puntano al vecchio
-  dominio invece che a `certify.tmslab.it`.
+  tag, con `og:url` e `og:image` su `https://certify.tmslab.it` (indirizzo
+  ufficiale dal 05/10/2026: `metadataBase` in `src/app/layout.tsx`).
 
 ### 4.4 Analytics
 - **Cosa fa:** Cloudflare Web Analytics, montato in `src/app/layout.tsx` con
@@ -285,7 +282,8 @@ curl -I https://certify.tmslab.it   # deve restare 200
 - **Come testare:** `curl -s -o /dev/null -w '%{http_code}'
   http://127.0.0.1:3003/changelog` → 200; la pagina elenca le voci, ognuna
   con versione, livello, data formattata all'italiana e elenco puntato; il
-  link "← Certify" torna alla home.
+  link "Changelog" nel footer della home ci porta e il link "← Certify"
+  torna alla home.
 
 ### 5.2 Prompt di ripresa sessione
 - **Dove sta:** `PROMPT-RIPRESA.md` nella cartella del progetto sul Pi, fuori

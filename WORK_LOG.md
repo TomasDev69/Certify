@@ -20,6 +20,25 @@
 
 ---
 
+## 2026-10-05 — certify.tmslab.it indirizzo ufficiale, link al Changelog
+
+**Richiesta:** «secondo me è figo se il Raspberry Pi 5 diventa l'indirizzo
+ufficiale. poi secondo me si può aggiungere un link alla pagina changelog».
+
+**Piano:**
+1. [x] `src/app/layout.tsx`: `metadataBase` e `openGraph.url` da
+   `certify-red.vercel.app` a `certify.tmslab.it` (anteprime social e URL
+   assolute).
+2. [x] `src/app/page.tsx`: link «Changelog» nel footer, accanto a
+   «Privacy & Terms».
+3. [x] `CLAUDE.md`: note aperte aggiornate (resta solo la copia su Vercel).
+4. [ ] `npm run build` sul PC, `FEATURE_CHECKLIST.md` per intero.
+5. [ ] Commit e push, poi sul Pi pull, build, `pm2 restart certify`, verifiche.
+
+**Stato:** voce di changelog 0.1.1 (PATCH) aggiunta su richiesta di Tomas (notifica ntfy saltata: il topic sta solo sul Pi). Build OK sul PC, commit e push, poi deploy sul Pi.
+
+---
+
 ## 2026-10-04 — Cloudflare Web Analytics, prompt di ripresa fuori dal sito, repo allineato
 
 **Richiesta:** contare le visite di certify.tmslab.it con Cloudflare Web

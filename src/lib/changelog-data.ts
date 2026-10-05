@@ -26,6 +26,17 @@ export interface ChangelogEntry {
  */
 export const changelog: ChangelogEntry[] = [
   {
+    version: "0.1.1",
+    kind: "PATCH",
+    title: "Official address and Changelog link",
+    items: [
+      "Certify's official address is now certify.tmslab.it: link previews on social apps and chats point here",
+      "The home page footer now links to this Changelog, next to Privacy & Terms",
+      "No change to how the site works: validation, redesign and PDF download are exactly as before",
+    ],
+    releasedAt: "2026-10-05",
+  },
+  {
     version: "0.1.0",
     kind: "PATCH",
     title: "Changelog system introduced",

@@ -155,6 +155,13 @@ export default function Home() {
           >
             Privacy &amp; Terms
           </Link>
+          <span aria-hidden="true">·</span>
+          <Link
+            href="/changelog"
+            className="text-muted underline-offset-4 transition-colors hover:text-foreground hover:underline"
+          >
+            Changelog
+          </Link>
         </p>
         <p className="flex items-center gap-2">
           <span>Last updated {LAST_UPDATED}</span>

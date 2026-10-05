@@ -15,7 +15,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://certify-red.vercel.app"),
+  metadataBase: new URL("https://certify.tmslab.it"),
   title: "Certify — Redesign Your Anthropic Certificate",
   description:
     "Validate an official Anthropic Skilljar certificate and generate a beautifully redesigned, downloadable version.",
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     title: "Certify — Redesign Your Anthropic Certificate",
     description:
       "Validate an official Anthropic Skilljar certificate and generate a beautifully redesigned, downloadable version.",
-    url: "https://certify-red.vercel.app",
+    url: "https://certify.tmslab.it",
     siteName: "Certify",
     images: [
       {

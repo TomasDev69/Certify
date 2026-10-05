@@ -95,13 +95,8 @@ Documenti di progetto (leggere in quest'ordine a inizio sessione):
 
 ## Note aperte (segnalate, non corrette)
 
-- `metadataBase` in `src/app/layout.tsx` punta ancora a
-  `https://certify-red.vercel.app` (residuo del deploy Vercel originale):
-  le URL assolute nelle anteprime social puntano al vecchio dominio invece
-  che a `certify.tmslab.it`. Correggibile in una riga, ma va deciso con
-  Tomas.
-- La pagina `/changelog` non e' linkata da nessuna pagina esistente (il
-  vincolo della sessione che l'ha introdotta era di non toccare le pagine
-  gia' presenti): ci si arriva solo per URL diretto. Aggiungere un link nel
-  footer della home significa modificare `src/app/page.tsx` — chiedere
-  prima.
+- La copia su Vercel (`certify-red.vercel.app`) e' ancora accesa e si
+  aggiorna a ogni push. Dal 05/10/2026 l'indirizzo ufficiale e'
+  `certify.tmslab.it` (`metadataBase` e `openGraph.url` in
+  `src/app/layout.tsx`, scelta di Tomas); spegnere Vercel o farlo rimandare
+  qui va deciso con Tomas.
